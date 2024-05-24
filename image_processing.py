@@ -18,29 +18,35 @@ class ImageProcessing:
                 cv2.waitKey(0) 
                 cv2.destroyAllWindows()
 
+
     def grayscale_conversion(self, images):
         grayscale_images  = [cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) for image in images]
         return grayscale_images
     
+
     def resize(self, images, height, width):
         resized_images = [cv2.resize(image, (height, width)) for image in images]
         return resized_images
     
+
     def blur(self, images):
         blurred_images = [cv2.GaussianBlur(image, (5, 5), 0) for image in images]
         return blurred_images
     
+
     def gaussian_noise_add(self, images):
         mean = 0
         stddev = 10
         noisy_images = [image + np.random.normal(mean, stddev, image.shape).astype(np.uint8) for image in images]
         return noisy_images
     
+
     def denoise(self, images):
         denoised_images = [cv2.fastNlMeansDenoising(image, None, h=10, templateWindowSize=7
                                            , searchWindowSize=21) for image in images]
         return denoised_images
     
+
     def random_rotation(self, image, max_angle=15):
         angle = np.random.uniform(-max_angle, max_angle) 
         rows, cols = image.shape[:2] 
@@ -48,16 +54,19 @@ class ImageProcessing:
         rotated_image = cv2.warpAffine(image, M, (cols, rows)) 
         return rotated_image
 
+
     def random_flip(self, image): 
         flip_code = np.random.choice([-1, 0, 1])
         return cv2.flip(image, flip_code) 
  
+
     def random_crop(self, image, crop_size=(150, 150)): 
         rows, cols = image.shape[:2] 
         x = np.random.randint(0, cols - crop_size[0] + 1) 
         y = np.random.randint(0, rows - crop_size[1] + 1) 
         cropped_image = image[y:y+crop_size[1], x:x+crop_size[0]] 
         return cropped_image 
+
 
     def augmentation(self, images, labels): 
         augmented_images = copy.deepcopy(images)
@@ -79,10 +88,12 @@ class ImageProcessing:
         edges = [cv2.Canny(image, threshold1=100, threshold2=200) for image in images]
         return edges
 
+
     def hist_equalization(self, images):
         hist_eq_images = [cv2.equalizeHist(image) for image in images]
         return hist_eq_images
     
+
     def global_threshold(self, images):
         global_thresholded_images = []
         for image in images:
@@ -90,6 +101,7 @@ class ImageProcessing:
             global_thresholded_images.append(global_thresholded)
         return global_thresholded_images
     
+
     def adaptive_threshold(self, images):
         adaptive_threholded_images = []
         for image in images:
@@ -99,6 +111,7 @@ class ImageProcessing:
         
         return adaptive_threholded_images
     
+
     def save_processed_files(self, images, labels):
         output_dir = 'cv_output'
         if not os.path.exists(output_dir):
