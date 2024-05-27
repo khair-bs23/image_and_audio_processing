@@ -34,7 +34,7 @@ class ImageProcessing:
 
     def gaussian_noise_add(self, images):
         mean = 0
-        stddev = 10
+        stddev = 5
         noisy_images = [image + np.random.normal(mean, stddev, image.shape).astype(np.uint8) for image in images]
         return noisy_images
 
