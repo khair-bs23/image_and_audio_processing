@@ -110,17 +110,6 @@ class AudioProcessing:
         
         return features
 
-    def process_audio_files(self, audio_files_dir):
-        all_features = []
-        
-        for file_name in os.listdir(audio_files_dir):
-            if file_name.endswith('.wav'):
-                audio_file_path = os.path.join(audio_files_dir, file_name)
-                features = self.feature_extraction(audio_file_path)
-                all_features.append(features)
-        
-        return all_features
-
     def save_features_to_csv(self, all_features, output_file):
         df = pd.DataFrame(all_features)
         df.to_csv(output_file, index=False)
@@ -128,7 +117,16 @@ class AudioProcessing:
 
 if __name__=='__main__':
     audio_files_dir = 'audio_data_sample'
+    all_features = []
+    
     audio_processor = AudioProcessing('audio_plots')
-    all_features = audio_processor.process_audio_files(audio_files_dir)
-    audio_processor.save_features_to_csv(all_features, 'audio_features.csv')
 
+    for file_name in os.listdir(audio_files_dir):
+        if file_name.endswith('.wav'):
+            audio_file_path = os.path.join(audio_files_dir, file_name)
+            features = audio_processor.feature_extraction(audio_file_path)
+            all_features.append(features)
+    
+    
+    audio_processor.save_features_to_csv(all_features, 'audio_features.csv')
+    
